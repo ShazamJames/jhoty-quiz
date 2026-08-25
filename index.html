@@ -1,0 +1,892 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jhoty - Guna, Vikar & Elemental Personality Quiz</title>
+
+<style>
+:root{
+  --bg:#f7f5f0;
+  --paper:#ffffff;
+  --ink:#1d211f;
+  --muted:#6a706c;
+  --line:#dddcd6;
+  --sage:#68786a;
+  --sage-dark:#465449;
+  --sage-soft:#edf1ed;
+  --warm:#b48b56;
+  --error:#9d3f3f;
+  --radius:20px;
+  --shadow:0 12px 34px rgba(31,36,33,.08);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+.quiz-shell{
+  min-height:100vh;
+  padding:28px 16px 64px;
+}
+
+#gunaVikarQuiz{
+  max-width:920px;
+  margin:0 auto;
+}
+
+.site-mark{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:28px;
+}
+
+.brand{
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:28px;
+  letter-spacing:.02em;
+}
+
+.motto{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  color:var(--muted);
+}
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  min-height:210px;
+  border-radius:26px;
+  background:
+    linear-gradient(90deg, rgba(21,28,24,.74), rgba(21,28,24,.32)),
+    url("https://jhoty.com/wp-content/uploads/2024/12/website-cover-mountain.jpg?w=1024") center 43%/cover;
+  color:white;
+  display:flex;
+  align-items:flex-end;
+  padding:34px;
+  margin-bottom:24px;
+  box-shadow:var(--shadow);
+}
+
+.hero-copy{
+  max-width:650px;
+}
+
+.hero .kicker{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  opacity:.8;
+  margin-bottom:8px;
+}
+
+.hero h1{
+  margin:0 0 10px;
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:clamp(34px,5vw,54px);
+  line-height:1.05;
+  font-weight:500;
+}
+
+.hero p{
+  margin:0;
+  font-size:16px;
+  line-height:1.6;
+  max-width:620px;
+  color:rgba(255,255,255,.9);
+}
+
+.quiz-card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+.progress-wrap{
+  padding:20px 26px 0;
+}
+
+.progress-meta{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:10px;
+  font-size:13px;
+  color:var(--muted);
+}
+
+.progress-track{
+  height:5px;
+  background:#ecebe6;
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.progress-fill{
+  height:100%;
+  width:25%;
+  background:var(--sage);
+  border-radius:999px;
+  transition:width .3s ease;
+}
+
+#errorMsg{
+  margin:0;
+  padding:10px 26px 0;
+  color:var(--error);
+  font-size:14px;
+  min-height:30px;
+}
+
+.step{
+  padding:12px 26px 28px;
+}
+
+.step-head{
+  padding:12px 0 22px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:22px;
+}
+
+.step-eyebrow{
+  color:var(--sage);
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  font-weight:700;
+  margin-bottom:7px;
+}
+
+.step h2{
+  margin:0;
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:31px;
+  line-height:1.15;
+  font-weight:500;
+}
+
+.step-head p{
+  margin:10px 0 0;
+  color:var(--muted);
+  line-height:1.6;
+}
+
+.q{
+  padding:22px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.q:last-child{border-bottom:none}
+
+.q p{
+  margin:0 0 15px;
+  font-size:16px;
+  line-height:1.55;
+}
+
+.q-number{
+  display:inline-flex;
+  width:28px;
+  height:28px;
+  align-items:center;
+  justify-content:center;
+  margin-right:8px;
+  border-radius:50%;
+  background:var(--sage-soft);
+  color:var(--sage-dark);
+  font-size:12px;
+  font-weight:700;
+  vertical-align:middle;
+}
+
+.opts{
+  display:grid;
+  grid-template-columns:repeat(5, 1fr);
+  gap:10px;
+}
+
+.opts label{
+  position:relative;
+  cursor:pointer;
+}
+
+.opts input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+
+.rating-box{
+  min-height:54px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:17px;
+  transition:.18s ease;
+}
+
+.opts label:hover .rating-box{
+  border-color:#aab4ab;
+  background:var(--sage-soft);
+}
+
+.opts input:checked + .rating-box{
+  background:var(--sage-dark);
+  border-color:var(--sage-dark);
+  color:white;
+  transform:translateY(-1px);
+}
+
+.scale-hints{
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:12px;
+  margin-top:8px;
+}
+
+.choices{
+  display:grid;
+  gap:10px;
+}
+
+.choice-label{
+  display:block;
+  cursor:pointer;
+}
+
+.choice-label input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+
+.choice-card{
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:15px 16px;
+  display:grid;
+  grid-template-columns:38px 1fr;
+  gap:12px;
+  background:#fff;
+  transition:.18s ease;
+}
+
+.choice-label:hover .choice-card{
+  background:#fafbf9;
+  border-color:#aeb8af;
+}
+
+.choice-label input:checked + .choice-card{
+  background:var(--sage-soft);
+  border-color:var(--sage);
+  box-shadow:inset 0 0 0 1px var(--sage);
+}
+
+.choice-letter{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f2f1ec;
+  color:var(--ink);
+  font-weight:700;
+}
+
+.choice-label input:checked + .choice-card .choice-letter{
+  background:var(--sage-dark);
+  color:white;
+}
+
+.choice-title{
+  font-weight:700;
+  margin-bottom:3px;
+}
+
+.choice-text{
+  color:var(--muted);
+  line-height:1.5;
+  font-size:14px;
+}
+
+.actions{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:26px;
+}
+
+.btn{
+  border:none;
+  border-radius:999px;
+  padding:13px 22px;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.18s ease;
+}
+
+.btn-primary{
+  background:var(--sage-dark);
+  color:#fff;
+}
+
+.btn-primary:hover{
+  background:#37423a;
+  transform:translateY(-1px);
+}
+
+.btn-secondary{
+  background:#f0efe9;
+  color:var(--ink);
+}
+
+.btn-secondary:hover{
+  background:#e7e5de;
+}
+
+.email-panel{
+  max-width:620px;
+  padding:8px 0 2px;
+}
+
+.email-panel input[type=email]{
+  width:100%;
+  padding:15px 16px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  font-size:16px;
+  outline:none;
+  margin:8px 0 14px;
+  background:#fff;
+}
+
+.email-panel input[type=email]:focus{
+  border-color:var(--sage);
+  box-shadow:0 0 0 3px rgba(104,120,106,.12);
+}
+
+.consent{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.45;
+}
+
+.consent input{margin-top:3px}
+
+#results{
+  display:none;
+  margin-top:28px;
+  padding:24px;
+  border:1px solid var(--line);
+  border-radius:17px;
+  background:#fbfaf7;
+}
+
+#results h3,
+#results h4{
+  font-family:Georgia, "Times New Roman", serif;
+  font-weight:500;
+  color:var(--ink);
+}
+
+#results h3{
+  margin:0 0 18px;
+  font-size:28px;
+}
+
+#results h4{
+  font-size:21px;
+  margin:20px 0 7px;
+}
+
+#results p{
+  line-height:1.6;
+}
+
+.result-score-row{
+  padding:11px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.result-score-row:last-child{border-bottom:none}
+
+@media (max-width:700px){
+  .site-mark{margin-bottom:18px}
+  .motto{display:none}
+  .hero{min-height:250px;padding:26px 22px}
+  .progress-wrap{padding-left:18px;padding-right:18px}
+  #errorMsg{padding-left:18px;padding-right:18px}
+  .step{padding-left:18px;padding-right:18px}
+  .opts{gap:7px}
+  .rating-box{min-height:48px}
+  .choice-card{grid-template-columns:34px 1fr;padding:13px}
+  .actions{align-items:stretch}
+  .btn{flex:1}
+}
+
+@media (max-width:470px){
+  .quiz-shell{padding:16px 10px 40px}
+  .hero{border-radius:18px}
+  .quiz-card{border-radius:18px}
+  .hero h1{font-size:35px}
+  .step h2{font-size:27px}
+  .scale-hints{font-size:11px}
+}
+</style>
+</head>
+
+<body>
+<div class="quiz-shell">
+  <div id="gunaVikarQuiz">
+
+    <div class="site-mark">
+      <div class="brand">Jhoty</div>
+      <div class="motto">Go Slow To Go Far</div>
+    </div>
+
+    <header class="hero">
+      <div class="hero-copy">
+        <div class="kicker">Self-reflection quiz</div>
+        <h1>Discover Your Guna, Vikar & Elemental Personality</h1>
+        <p>Take a few minutes to reflect honestly on how you think, feel and respond. There are no right answers.</p>
+      </div>
+    </header>
+
+    <div class="quiz-card">
+      <div class="progress-wrap">
+        <div class="progress-meta">
+          <span id="progress">Step 1 of 4</span>
+          <span id="sectionName">Virtues</span>
+        </div>
+        <div class="progress-track">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+      </div>
+
+      <p id="errorMsg"></p>
+
+      <!-- STEP 1 -->
+      <section class="step" data-step="1">
+        <div class="step-head">
+          <div class="step-eyebrow">Part 1</div>
+          <h2>Virtues (Guna)</h2>
+          <p>Rate each statement from 1 to 5 based on how relatable it is to you.</p>
+        </div>
+
+        <div class="likert">
+          <div class="q" data-q="v1"><p><span class="q-number">1</span>I strive to ensure my words and actions are consistent with my deepest moral principles, even when it's inconvenient.</p><div class="opts"></div></div>
+          <div class="q" data-q="v2"><p><span class="q-number">2</span>When I see someone suffering, my primary instinct is to actively seek a way to help or relieve their pain.</p><div class="opts"></div></div>
+          <div class="q" data-q="v3"><p><span class="q-number">3</span>I feel peaceful and grateful for what I have in the present moment, rather than focusing on future desires.</p><div class="opts"></div></div>
+          <div class="q" data-q="v4"><p><span class="q-number">4</span>When praised for an accomplishment, I quickly credit the efforts of others or a higher power before myself.</p><div class="opts"></div></div>
+          <div class="q" data-q="v5"><p><span class="q-number">5</span>I feel a genuine sense of universal connection and goodwill towards all people, regardless of their background.</p><div class="opts"></div></div>
+        </div>
+
+        <div class="actions">
+          <span></span>
+          <button class="btn btn-primary nextBtn">Continue</button>
+        </div>
+      </section>
+
+      <!-- STEP 2 -->
+      <section class="step" data-step="2" style="display:none;">
+        <div class="step-head">
+          <div class="step-eyebrow">Part 2</div>
+          <h2>Vices (Vikar)</h2>
+          <p>Use the same 1 to 5 scale. Answer instinctively rather than choosing what feels ideal.</p>
+        </div>
+
+        <div class="likert">
+          <div class="q" data-q="x1"><p><span class="q-number">1</span>I often feel a need to correct others to show I am the most knowledgeable person in the room.</p><div class="opts"></div></div>
+          <div class="q" data-q="x2"><p><span class="q-number">2</span>I feel dissatisfied with my material possessions, always wanting something more or better.</p><div class="opts"></div></div>
+          <div class="q" data-q="x3"><p><span class="q-number">3</span>A small annoyance can quickly cause me to lose my temper or become verbally harsh.</p><div class="opts"></div></div>
+          <div class="q" data-q="x4"><p><span class="q-number">4</span>The success and well-being of my loved ones is my sole focus, to the exclusion of others' needs.</p><div class="opts"></div></div>
+          <div class="q" data-q="x5"><p><span class="q-number">5</span>My impulses and physical cravings frequently dictate my immediate actions and decisions.</p><div class="opts"></div></div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-secondary backBtn">Back</button>
+          <button class="btn btn-primary nextBtn">Continue</button>
+        </div>
+      </section>
+
+      <!-- STEP 3 -->
+      <section class="step" data-step="3" style="display:none;">
+        <div class="step-head">
+          <div class="step-eyebrow">Part 3</div>
+          <h2>Elemental Personality</h2>
+          <p>Choose the response that most closely describes how you naturally tend to respond.</p>
+        </div>
+
+        <div class="mcq">
+          <div class="q" data-q="e1"><p><span class="q-number">1</span>Responding to a crisis, you are...</p><div class="choices"></div></div>
+          <div class="q" data-q="e2"><p><span class="q-number">2</span>You seek fulfillment through...</p><div class="choices"></div></div>
+          <div class="q" data-q="e3"><p><span class="q-number">3</span>Your biggest internal obstacle is...</p><div class="choices"></div></div>
+          <div class="q" data-q="e4"><p><span class="q-number">4</span>When building a team for a project, your natural role is...</p><div class="choices"></div></div>
+          <div class="q" data-q="e5"><p><span class="q-number">5</span>Under pressure, you tend to...</p><div class="choices"></div></div>
+          <div class="q" data-q="e6"><p><span class="q-number">6</span>You feel spiritually recharged when...</p><div class="choices"></div></div>
+          <div class="q" data-q="e7"><p><span class="q-number">7</span>When working on a passion project, your greatest satisfaction comes from...</p><div class="choices"></div></div>
+          <div class="q" data-q="e8"><p><span class="q-number">8</span>In family/friend relationship conflicts, you tend to focus on...</p><div class="choices"></div></div>
+          <div class="q" data-q="e9"><p><span class="q-number">9</span>When engaging with hobbies of art, music, or sport, you are most drawn to...</p><div class="choices"></div></div>
+          <div class="q" data-q="e10"><p><span class="q-number">10</span>If your entire life's work was suddenly erased, your deepest psychological reaction would be...</p><div class="choices"></div></div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-secondary backBtn">Back</button>
+          <button class="btn btn-primary nextBtn">See Results</button>
+        </div>
+      </section>
+
+      <!-- STEP 4 -->
+      <section class="step" data-step="4" style="display:none;">
+        <div class="step-head">
+          <div class="step-eyebrow">Your reflection</div>
+          <h2>Your results are ready</h2>
+          <p>Enter your email to reveal your Virtue-Vice Orientation and Elemental Personality.</p>
+        </div>
+
+        <div class="email-panel">
+          <label for="emailInput"><strong>Email address</strong></label>
+          <input id="emailInput" type="email" placeholder="you@example.com">
+
+          <label class="consent">
+            <input id="consentChk" type="checkbox">
+            <span>I agree to receive my results by email and occasional updates.</span>
+          </label>
+
+          <div class="actions" style="margin-top:22px;">
+            <button class="btn btn-secondary backBtn">Back</button>
+            <button id="revealBtn" class="btn btn-primary">Reveal My Results</button>
+          </div>
+        </div>
+
+        <!-- Keep original simple results for now -->
+        <div id="results">
+          <h3>Your Results</h3>
+          <div id="scores"></div>
+          <div id="pathResult"></div>
+          <div id="elementResult"></div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+
+const WEBHOOK_URL = "";
+
+const scale = [1,2,3,4,5];
+
+const elementNames = {
+ A:"Earth (Prithvi)",
+ B:"Water (Aap)",
+ C:"Fire (Agni/Tej)",
+ D:"Air (Vaaye)",
+ E:"Ether (Akash)"
+};
+
+const profiles = {
+ A:{title:"Prithvi (Earth) - The Builder Custodian",desc:"Stability and Selfless Service (Sewa). You ground groups and projects, focus on reliability, and build what lasts."},
+ B:{title:"Aap (Water) - The Healer Connector",desc:"Flow, Compassion (Daya), and emotional unity. You support, reconcile, and help people feel understood."},
+ C:{title:"Agni/Tej (Fire) - The Warrior Reformer",desc:"Drive, Courage, and commitment to justice (Dharam). You act fast, push change, and fight for what feels right."},
+ D:{title:"Vaaye (Air) - The Sage Thinker",desc:"Analysis, Knowledge, and spreading spiritual wisdom (Gyan). You see patterns, build strategies, and seek clarity."},
+ E:{title:"Akash (Ether) - The Mystic Seer",desc:"Introspection, Oneness, and connection to the infinite (Ik Onkar). You step back, perceive deeper meaning, and remain calm."}
+};
+
+const scenarios = {
+e1:{
+ A:"The stable pillar, focused on securing resources and practical steps.",
+ B:"The empathetic flow, providing emotional support and smoothing conflicts.",
+ C:"The dynamic leader, immediately decisive and driving forward with urgency.",
+ D:"The thoughtful analyst, observing all angles before offering a strategic plan.",
+ E:"The calm observer, understanding the temporary nature of the event and remaining detached."
+},
+e2:{
+ A:"Service (Sewa) and hard work, building something tangible and reliable.",
+ B:"Healing and nurturing, cultivating deep emotional bonds with others.",
+ C:"Passion and action, pursuing ambitions with intense energy and focus.",
+ D:"Knowledge and teaching, expanding your mind and seeking wisdom.",
+ E:"Meditation (Naam Japna) and introspection, seeking union with the divine."
+},
+e3:{
+ A:"Inertia - difficulty starting or shifting course.",
+ B:"Over-sympathy - absorbing others' pain.",
+ C:"Impatience - burning out or moving too fast.",
+ D:"Worry - over-thinking and intellectualizing everything.",
+ E:"Detachment - feeling too disconnected from the practical world."
+},
+e4:{
+ A:"The Organizer, setting the foundational structure, deadlines, and managing practical resources.",
+ B:"The Peacemaker, ensuring emotional harmony, communication, and mutual support within the group.",
+ C:"The Driver, motivating others, injecting energy, and fighting to overcome obstacles.",
+ D:"The Strategist, collecting information, researching possibilities, and designing the overall approach.",
+ E:"The Visionary, reminding the team of the ultimate purpose and highest ethical standards."
+},
+e5:{
+ A:"Become stubborn and unmoving; I rely heavily on established routine and procedure.",
+ B:"Become overly fluid and easily influenced; I prioritize adapting to others' needs over my own.",
+ C:"Become volatile and intense; I lash out or push solutions aggressively.",
+ D:"Become anxious and withdrawn; I over-analyze the situation until paralyzed by choice.",
+ E:"Become detached and disengaged; I mentally ascend from the issue, viewing it as insignificant."
+},
+e6:{
+ A:"Completing a tangible act of service (Sewa) or physical labor that benefits a community.",
+ B:"Crying, forgiving, or having a deep, healing emotional connection with a trusted person.",
+ C:"Engaging in passionate advocacy or striving forcefully to meet a difficult goal.",
+ D:"Absorbing a new complex idea or debating a philosophical question with a sharp mind.",
+ E:"Lying under the vast night sky, feeling fully connected to the stillness and infinity of the universe."
+},
+e7:{
+ A:"The moment the physical structure is complete and it proves to be durable and functional.",
+ B:"The collaboration and shared feeling of success with those I worked alongside.",
+ C:"Overcoming the biggest hurdle and achieving a high-intensity goal that others thought impossible.",
+ D:"Finding the optimal, elegant solution to a complex problem in the project's design phase.",
+ E:"The profound, quiet meaning the finished work holds, irrespective of external results."
+},
+e8:{
+ A:"Setting boundaries and enforcing realistic consequences to ensure long-term stability.",
+ B:"Reconciliation and emotional repair; ensuring everyone feels heard and reconnected.",
+ C:"Identifying the core wrongdoing and pushing for immediate, decisive correction or justice.",
+ D:"Analyzing the cause of the conflict, pointing out logical errors and communication flaws.",
+ E:"Transcending the conflict by viewing it as an insignificant, temporary distraction from deeper truth."
+},
+e9:{
+ A:"Disciplined martial arts or creating practical crafts (pottery, carpentry, gardening).",
+ B:"Flowing dance, vocal music (singing/choir), or spending time near large bodies of water.",
+ C:"Competitive team sports, energetic rock music, or powerful, dramatic painting.",
+ D:"Chess, abstract art, or complex instrumental music (classical/jazz) that requires intense focus.",
+ E:"Meditative art (mandala), chanting/Kirtan, or solitary long-distance running/hiking."
+},
+e10:{
+ A:"A sense of crushing futility and profound anxiety over the lack of foundational security.",
+ B:"A deep emotional void and immediate worry about who else might be harmed by this loss.",
+ C:"Intense anger and a powerful, immediate drive to rebuild everything immediately.",
+ D:"A feeling of being unmoored and intellectually lost, questioning the coherence of all knowledge.",
+ E:"A calm, detached acceptance, knowing that the true self and inner truth cannot be erased."
+}
+};
+
+let currentStep = 1;
+
+function radioValue(name){
+ const checked = document.querySelector('input[name="'+name+'"]:checked');
+ return checked ? checked.value : null;
+}
+
+/* Render 1-5 scale as large buttons */
+document.querySelectorAll(".likert .q").forEach(q=>{
+ const box=q.querySelector(".opts");
+ scale.forEach(n=>{
+   const label=document.createElement("label");
+   label.innerHTML='<input type="radio" name="'+q.dataset.q+'" value="'+n+'"><span class="rating-box">'+n+'</span>';
+   box.appendChild(label);
+ });
+
+ const hints=document.createElement("div");
+ hints.className="scale-hints";
+ hints.innerHTML="<span>1 · Not like me</span><span>5 · Very much like me</span>";
+ q.appendChild(hints);
+});
+
+/* Render elemental choices as cards */
+document.querySelectorAll(".mcq .q").forEach(q=>{
+ const box=q.querySelector(".choices");
+ ["A","B","C","D","E"].forEach(letter=>{
+   const label=document.createElement("label");
+   label.className="choice-label";
+   label.innerHTML=
+     '<input type="radio" name="'+q.dataset.q+'" value="'+letter+'">'+
+     '<span class="choice-card">'+
+       '<span class="choice-letter">'+letter+'</span>'+
+       '<span>'+
+         '<div class="choice-title">'+elementNames[letter]+'</div>'+
+         '<div class="choice-text">'+scenarios[q.dataset.q][letter]+'</div>'+
+       '</span>'+
+     '</span>';
+   box.appendChild(label);
+ });
+});
+
+function sumFive(prefix){
+ let total=0;
+ for(let i=1;i<=5;i++){
+   const val=radioValue(prefix+i);
+   if(!val)return null;
+   total+=Number(val);
+ }
+ return total;
+}
+
+function elementCounts(){
+ const counts={A:0,B:0,C:0,D:0,E:0};
+ for(let i=1;i<=10;i++){
+   const val=radioValue("e"+i);
+   if(!val)return null;
+   counts[val]++;
+ }
+ return counts;
+}
+
+function orientation(v,g){
+ const diff=v-g;
+
+ if(diff>=5)
+   return {
+     title:"Illuminating-Oriented",
+     text:"Your Virtues score is significantly higher than your Vices score. Your current path is strongly oriented toward the inner heart's light (Jot)."
+   };
+
+ if(diff<=-5)
+   return {
+     title:"Ego-Oriented",
+     text:"Your Vices score is significantly higher than your Virtues score. Your current path is strongly driven by ego and material attachment."
+   };
+
+ return {
+   title:"The Struggler (Balanced)",
+   text:"Your scores are close. You are actively engaged in the daily Dharam Brawl - the righteous struggle between vices and virtues."
+ };
+}
+
+function validate(step){
+ if(step===1)return sumFive("v")!==null;
+ if(step===2)return sumFive("x")!==null;
+ if(step===3)return elementCounts()!==null;
+ return true;
+}
+
+function showStep(step){
+ currentStep=step;
+
+ document.querySelectorAll(".step").forEach(el=>{
+   el.style.display=Number(el.dataset.step)===step?"block":"none";
+ });
+
+ const names={1:"Virtues",2:"Vices",3:"Elemental Personality",4:"Results"};
+ document.getElementById("progress").textContent="Step "+step+" of 4";
+ document.getElementById("sectionName").textContent=names[step];
+ document.getElementById("progressFill").style.width=(step*25)+"%";
+ document.getElementById("errorMsg").textContent="";
+
+ const top=document.getElementById("gunaVikarQuiz").getBoundingClientRect().top + window.scrollY;
+ window.scrollTo({top:Math.max(0,top-20),behavior:"smooth"});
+}
+
+document.querySelectorAll(".nextBtn").forEach(btn=>{
+ btn.onclick=function(){
+   if(!validate(currentStep)){
+     document.getElementById("errorMsg").textContent="Please answer every question before continuing.";
+     return;
+   }
+   showStep(currentStep+1);
+ };
+});
+
+document.querySelectorAll(".backBtn").forEach(btn=>{
+ btn.onclick=function(){
+   showStep(Math.max(1,currentStep-1));
+ };
+});
+
+function renderResults(){
+
+ const virtues=sumFive("v");
+ const vices=sumFive("x");
+ const counts=elementCounts();
+ const orient=orientation(virtues,vices);
+
+ const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+ const highest=sorted[0][1];
+ const winners=sorted.filter(x=>x[1]===highest).map(x=>x[0]);
+
+ document.getElementById("scores").innerHTML=
+   '<div class="result-score-row"><strong>Virtues (Guna) Score:</strong> '+virtues+' / 25</div>'+
+   '<div class="result-score-row"><strong>Vices (Vikar) Score:</strong> '+vices+' / 25</div>'+
+   '<div class="result-score-row"><strong>Virtue-Vice Orientation:</strong> '+orient.title+'</div>';
+
+ document.getElementById("pathResult").innerHTML=
+   "<h4>"+orient.title+"</h4><p>"+orient.text+"</p>";
+
+ let html="<h4>Elemental Personality</h4>";
+
+ winners.forEach(letter=>{
+   html+="<p><strong>"+profiles[letter].title+"</strong><br>"+profiles[letter].desc+"</p>";
+ });
+
+ document.getElementById("elementResult").innerHTML=html;
+ document.getElementById("results").style.display="block";
+ document.getElementById("results").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+document.getElementById("revealBtn").onclick=async function(){
+
+ const email=document.getElementById("emailInput").value.trim();
+ const consent=document.getElementById("consentChk").checked;
+
+ if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+   document.getElementById("errorMsg").textContent="Please enter a valid email address.";
+   return;
+ }
+
+ if(!consent){
+   document.getElementById("errorMsg").textContent="Please confirm your consent.";
+   return;
+ }
+
+ const virtues=sumFive("v");
+ const vices=sumFive("x");
+ const counts=elementCounts();
+ const orient=orientation(virtues,vices);
+
+ if(WEBHOOK_URL){
+   try{
+     await fetch(WEBHOOK_URL,{
+       method:"POST",
+       headers:{"Content-Type":"application/json"},
+       body:JSON.stringify({
+         timestamp:new Date().toISOString(),
+         email:email,
+         virtues:virtues,
+         vices:vices,
+         orientation:orient.title,
+         element_counts:counts
+       })
+     });
+   }catch(e){}
+ }
+
+ renderResults();
+};
+
+showStep(1);
+
+})();
+</script>
+</body>
+</html>
