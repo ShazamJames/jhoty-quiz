@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Elemental Tattva Profile</title>
+<title>Illuminating Dharamsal Quiz</title>
 
 <style>
 :root{
@@ -367,138 +367,42 @@ button:disabled{
     animation:none !important;
   }
 }
-/* ---------- Intro / welcome screen ---------- */
 
-#gunaVikarQuiz.pre-start > h2,
-#gunaVikarQuiz.pre-start > h2 + p,
-#gunaVikarQuiz.pre-start > #progress,
-#gunaVikarQuiz.pre-start > #errorMsg,
-#gunaVikarQuiz.pre-start .step{display:none}
-
-#gunaVikarQuiz:not(.pre-start) > #introScreen{display:none}
-
-.et-mark{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-  margin:0 0 26px;
-}
-
-.et-brand{
-  font-family:Georgia,"Times New Roman",serif;
-  font-size:26px;
-  letter-spacing:.02em;
-  color:var(--j-text);
-}
-
-.et-motto{
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  font-size:12px;
-  text-transform:uppercase;
-  letter-spacing:.14em;
-  color:var(--j-muted);
-}
-
-.et-hero{
-  position:relative;
-  overflow:hidden;
-  min-height:310px;
-  border-radius:20px;
-  background:
-    linear-gradient(90deg, rgba(28,23,15,.82), rgba(28,23,15,.32)),
-    url("website-cover-mountain.jpg") center 43%/cover;
-  color:#fff;
-  display:flex;
-  align-items:flex-end;
-  padding:34px;
-  margin:0 0 30px;
-  box-shadow:0 18px 44px rgba(58,48,32,.18);
-}
-
-.et-hero-copy{max-width:610px}
-
-.et-kicker{
-  margin:0 0 10px;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  font-size:12px;
-  font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:.16em;
-  color:rgba(255,255,255,.82);
-}
-
-.et-hero h1{
-  margin:0 0 12px;
-  font-family:Georgia,"Times New Roman",serif;
-  font-size:clamp(32px,4.6vw,50px);
-  line-height:1.05;
-  font-weight:500;
-  letter-spacing:-.03em;
-}
-
-.et-hero p{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  font-size:16px;
-  line-height:1.6;
-  color:rgba(255,255,255,.9);
-}
-
-.et-intro-note{
-  margin:0 0 6px;
-  max-width:645px;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  font-size:16px;
-  line-height:1.65;
-  color:var(--j-muted);
-}
-
-#beginBtn{
-  padding:15px 30px;
-  font-size:15px;
-}
-
-@media (max-width:700px){
-  .et-motto{display:none}
-  .et-hero{
-    min-height:265px;
-    padding:24px 20px;
-    border-radius:16px;
-  }
-  .et-hero h1{font-size:33px}
-  #beginBtn{width:100%}
-}
-
+/* Welcome and community invitation */
+[hidden]{display:none !important}
+.intro-screen{text-align:center;padding:40px 12px 52px;animation:jFade .35s ease}
+.intro-mark{font-size:34px;color:var(--j-accent);margin-bottom:22px}
+.intro-kicker{font:700 11px system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--j-accent-deep)}
+.intro-screen h1{font-size:clamp(39px,7vw,68px);font-weight:500;letter-spacing:-.045em;line-height:1.07;margin:16px auto;max-width:680px}
+.intro-subtitle{font:16px/1.7 system-ui,sans-serif;color:var(--j-muted);max-width:560px;margin:0 auto}
+.intro-divider{width:54px;height:1px;background:var(--j-accent);margin:32px auto}
+.intro-copy{font-size:23px;margin:0 0 22px}
+.intro-sections{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.intro-sections span{border:1px solid var(--j-line);border-radius:999px;padding:9px 14px;color:var(--j-accent-deep);font:12px system-ui,sans-serif}
+#beginQuizBtn{margin-top:38px;background:var(--j-accent-deep);padding:15px 34px}
+.community-invite{border-top:1px solid var(--j-line);margin-top:30px;padding-top:12px}
+.community-link{display:inline-block;margin-top:12px;background:var(--j-accent-deep);color:white!important;text-decoration:none;border-radius:999px;padding:13px 22px;font:700 14px system-ui,sans-serif}
+.community-link:hover{background:var(--j-text)}
 </style>
 
 </head>
 <body>
 
-<div id="gunaVikarQuiz" class="pre-start" style="max-width:900px;margin:0 auto;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.5;">
+<div id="gunaVikarQuiz" style="max-width:900px;margin:0 auto;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.5;">
 
-
-  <section id="introScreen">
-    <div class="et-mark">
-      <div class="et-brand">Jhoty</div>
-      <div class="et-motto">Go Slow To Go Far</div>
-    </div>
-
-    <header class="et-hero">
-      <div class="et-hero-copy">
-        <p class="et-kicker">Self-reflection quiz</p>
-        <h1>Elemental Tattva Profile</h1>
-        <p>Designed to understand your virtues, vices and element.</p>
-      </div>
-    </header>
-
-    <p class="et-intro-note">Take a few minutes to reflect honestly on how you think, feel and respond. There are no right answers.</p>
-
-    <button id="beginBtn" type="button">Begin the quiz</button>
+  <section id="introScreen" class="intro-screen">
+    <div class="intro-mark" aria-hidden="true">✦</div>
+    <p class="intro-kicker">A reflective self-assessment</p>
+    <h1>Illuminating Dharamsal Quiz</h1>
+    <p class="intro-subtitle">designed to understand your virtues, vices and elemental profile</p>
+    <div class="intro-divider"></div>
+    <p class="intro-copy">Discover your strengths</p>
+    <div class="intro-sections"><span>Virtues (Guna)</span><span>Vices (Vikar)</span><span>Elemental Personality</span></div>
+    <button id="beginQuizBtn" type="button">Begin Quiz</button>
   </section>
-
-  <h2>Elemental Tattva Profile</h2>
-  <p>designed to understand your virtues, vices and element</p>
+  <div id="quizContent" hidden>
+  <h2>Illuminating Dharamsal Quiz</h2>
+  <p>designed to understand your virtues, vices and elemental profile</p>
 
   <div id="progress" style="margin:10px 0 18px;font-weight:700;"></div>
   <p id="errorMsg" style="color:#b00020;margin:10px 0;"></p>
@@ -524,8 +428,8 @@ button:disabled{
 
     <div class="likert">
       <div class="q" data-q="x1"><p><strong>1.</strong> I often feel insecure needing to correct, boast or humble others to show I am the most superior person in the room.</p><div class="opts"></div></div>
-      <div class="q" data-q="x2"><p><strong>2.</strong> Emotions such as fear and feelings unsafe are deeply tied to my current wealth and material condition causing me to feel deep lack.</p><div class="opts"></div></div>
-      <div class="q" data-q="x3"><p><strong>3.</strong> Small annoyances quickly trigger my temper to anger and patience.</p><div class="opts"></div></div>
+      <div class="q" data-q="x2"><p><strong>2.</strong> Emotions such as fear and feeling unsafe are deeply tied to my current wealth and material condition causing me to feel deep scarcity.</p><div class="opts"></div></div>
+      <div class="q" data-q="x3"><p><strong>3.</strong> Small annoyances quickly trigger my temper to anger and loose patience.</p><div class="opts"></div></div>
       <div class="q" data-q="x4"><p><strong>4.</strong> I get prideful of my status quickly and get jealous or excited quickly upon hearing gossip.</p><div class="opts"></div></div>
       <div class="q" data-q="x5"><p><strong>5.</strong> My impulses, addictions &amp; physical cravings frequently dictate my immediate actions and decisions.</p><div class="opts"></div></div>
     </div>
@@ -566,9 +470,10 @@ button:disabled{
 
       <label>
         <input id="consentChk" type="checkbox">
-        I agree to receive my results by email and occasional updates.
+        I agree to receive my quiz results by email.
       </label>
 
+      <label><input id="newsletterChk" type="checkbox"> I would also like to receive newsletters and occasional community updates.</label>
       <button id="revealBtn">Reveal My Results</button>
     </div>
 
@@ -577,16 +482,24 @@ button:disabled{
       <div id="scores"></div>
       <div id="pathResult"></div>
       <div id="elementResult"></div>
+      <div id="communityInvite" class="community-invite" hidden>
+        <h4>Join Illuminating Dharamsal</h4>
+        <p>Now that you know your primary Elemental Tattva you are invited to Illuminating Dharamsal.<br>This is a transformative soace where we will explore what lights you up and your aligned dharma with other fellow seekers in the sangat community.</p>
+        <a id="communityLink" class="community-link" href="#" target="_blank" rel="noopener noreferrer">Join the WhatsApp Group</a>
+      </div>
     </div>
 
     <br>
     <button class="backBtn">Back</button>
   </section>
+  </div>
 </div>
 
 <script>
 (function(){
 
+// Set this to the actual WhatsApp invite URL when available. The button stays hidden until configured.
+const WHATSAPP_GROUP_URL = "";
 const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzsRhKztVLlaBXYwNc23_R8w2wo_02PGJQ1aTQn9yvIT_emaYwtRLcEtMxOAYr43_Rc/exec";
 
 const scale = [1,2,3,4,5];
@@ -811,6 +724,17 @@ function renderResults(){
  });
 
  document.getElementById("elementResult").innerHTML=html;
+ const invite=document.getElementById("communityInvite");
+ invite.hidden=false;
+ const join=document.getElementById("communityLink");
+ if(/^https:\/\/(chat\.whatsapp\.com|www\.whatsapp\.com)\//.test(WHATSAPP_GROUP_URL)){
+   join.href=WHATSAPP_GROUP_URL;
+ }else{
+   join.hidden=true;
+   const note=document.createElement("p");
+   note.textContent="WhatsApp group invitation link coming soon.";
+   invite.appendChild(note);
+ }
  document.getElementById("results").style.display="block";
  document.getElementById("results").scrollIntoView({behavior:"smooth"});
 }
@@ -862,6 +786,7 @@ document.getElementById("revealBtn").onclick=async function(){
        name:name,
        email:email,
        location:location,
+       newsletterConsent:document.getElementById("newsletterChk").checked,
        virtues:virtues,
        vices:vices,
        orientation:orient.title,
@@ -888,11 +813,12 @@ document.getElementById("revealBtn").onclick=async function(){
  }
 };
 
-const quizRoot = document.getElementById("gunaVikarQuiz");
-document.getElementById("beginBtn").onclick=function(){
- quizRoot.classList.remove("pre-start");
+document.getElementById("beginQuizBtn").addEventListener("click",()=>{
+ document.getElementById("introScreen").hidden=true;
+ document.getElementById("quizContent").hidden=false;
  showStep(1);
-};
+});
+showStep(1);
 
 })();
 </script>
