@@ -266,7 +266,7 @@ button:disabled{
   color:var(--j-text);
 }
 
-#nameInput,#emailInput,#locationInput{
+#nameInput,#emailInput,#locationInput,#communityReason{
   width:100%;
   padding:14px 15px !important;
   border:1px solid var(--j-line) !important;
@@ -279,7 +279,7 @@ button:disabled{
   transition:.18s ease;
 }
 
-#nameInput:focus,#emailInput:focus,#locationInput:focus{
+#nameInput:focus,#emailInput:focus,#locationInput:focus,#communityReason:focus{
   border-color:var(--j-accent) !important;
   box-shadow:0 0 0 3px rgba(164,122,58,.12);
 }
@@ -468,12 +468,16 @@ button:disabled{
       <input id="emailInput" type="email" placeholder="Email" style="padding:12px;border:1px solid #ddd;border-radius:8px;font-size:16px;">
       <input id="locationInput" type="text" placeholder="Location" style="padding:12px;border:1px solid #ddd;border-radius:8px;font-size:16px;">
 
+      <label for="communityReason" style="margin-top:4px;">
+        You are now able to access the community! Please share us: Why would you like to join the community?
+      </label>
+      <textarea id="communityReason" rows="5" placeholder="Tell us why you would like to join the community." style="padding:12px;border:1px solid #ddd;border-radius:8px;font-size:16px;resize:vertical;"></textarea>
+
       <label>
         <input id="consentChk" type="checkbox">
-        I agree to receive my quiz results by email.
+        Send full results &amp; community access to my email
       </label>
 
-      <label><input id="newsletterChk" type="checkbox"> I would also like to receive newsletters and occasional community updates.</label>
       <button id="revealBtn">Reveal My Results</button>
     </div>
 
@@ -499,7 +503,7 @@ button:disabled{
 (function(){
 
 // Set this to the actual WhatsApp invite URL when available. The button stays hidden until configured.
-const WHATSAPP_GROUP_URL = "";
+const WHATSAPP_GROUP_URL = "https://chat.whatsapp.com/HfEdxeU1lpz3XMkRHwK3DY";
 const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzsRhKztVLlaBXYwNc23_R8w2wo_02PGJQ1aTQn9yvIT_emaYwtRLcEtMxOAYr43_Rc/exec";
 
 const scale = [1,2,3,4,5];
@@ -744,6 +748,7 @@ document.getElementById("revealBtn").onclick=async function(){
  const name=document.getElementById("nameInput").value.trim();
  const email=document.getElementById("emailInput").value.trim();
  const location=document.getElementById("locationInput").value.trim();
+ const communityReason=document.getElementById("communityReason").value.trim();
  const consent=document.getElementById("consentChk").checked;
  const errorMsg=document.getElementById("errorMsg");
  const revealBtn=document.getElementById("revealBtn");
@@ -765,8 +770,13 @@ document.getElementById("revealBtn").onclick=async function(){
    return;
  }
 
+ if(!communityReason){
+   errorMsg.textContent="Please tell us why you would like to join the community.";
+   return;
+ }
+
  if(!consent){
-   errorMsg.textContent="Please confirm your consent.";
+   errorMsg.textContent="Please confirm that you would like your full results and community access sent to your email.";
    return;
  }
 
@@ -786,7 +796,8 @@ document.getElementById("revealBtn").onclick=async function(){
        name:name,
        email:email,
        location:location,
-       newsletterConsent:document.getElementById("newsletterChk").checked,
+       communityReason:communityReason,
+       emailConsent:consent,
        virtues:virtues,
        vices:vices,
        orientation:orient.title,
